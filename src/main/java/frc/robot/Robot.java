@@ -5,6 +5,8 @@
 package frc.robot;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
+import com.revrobotics.SparkPIDController;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -22,15 +24,44 @@ import edu.wpi.first.wpilibj.XboxController;
 public class Robot extends TimedRobot {
   private final CANSparkMax motor = new CANSparkMax(1, MotorType.kBrushless);
   private final XboxController controller = new XboxController(0);
+  private final SparkPIDController pid_controller = motor.getPIDController();
+  private final RelativeEncoder encoder = motor.getEncoder();
+  public double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput;
+  // public double rotations = 0.0;
+  public boolean claw_closed = false;
 
   @Override
   public void robotInit() {
     System.out.println("robotInit");
+
+    // PID coefficients
+    kP = 0.1;
+    kI = 5e-4;
+    kD = 4;
+    kIz = 0;
+    kFF = 0;
+    kMaxOutput = 0.5;
+    kMinOutput = -0.5;
+
+    // set PID coefficients
+    pid_controller.setP(kP);
+    pid_controller.setI(kI);
+    pid_controller.setD(kD);
+    pid_controller.setIZone(kIz);
+    pid_controller.setFF(kFF);
+    pid_controller.setOutputRange(kMinOutput, kMaxOutput);
   }
 
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-    motor.set(controller.getRightY());
+    if (controller.getAButtonPressed()) {
+      claw_closed = !claw_closed;
+    }
+
+    pid_controller.setReference(claw_closed ? 0.2 : 0.05, CANSparkMax.ControlType.kPosition);
+
+    System.out.println(claw_closed);
+    System.out.println(encoder.getPosition());
   }
 }
