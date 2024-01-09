@@ -48,19 +48,19 @@ public final class Constants {
     }
 
     public static class VisionConstants {
-        public static final String FAMILY = "tag16h5";
+        public static final String FAMILY = "tag36h11";
 
         public static final Transform3d ROBOT_CENTER_TO_CAMERA = new Transform3d(); // TODO figure this value out
-        
-        public static final int RESOLUTION_WIDTH = 320;
-        public static final int RESOLUTION_HEIGHT = 240;
-        public static final double APRILTAG_SIZE = 0.1933; // meters // 0.2032 for regulation field
+
+        public static final int RESOLUTION_WIDTH = 640;
+        public static final int RESOLUTION_HEIGHT = 480;
+        public static final double APRILTAG_SIZE = 0.1651; // meters // 0.2032 for regulation field
 
         // update to camera specifics
-        public static final double CAMERA_FX = 0d; // TODO what are these numbers?
-        public static final double CAMERA_FY = 0d; // TODO what are these numbers?
-        public static final double CAMERA_CX = RESOLUTION_WIDTH / 2; // TODO what are these numbers?
-        public static final double CAMERA_CY = RESOLUTION_WIDTH / 2; // TODO what are these numbers?
+        public static final double CAMERA_FX = 635.4972945688867d;
+        public static final double CAMERA_FY = 637.7740496971586;
+        public static final double CAMERA_CX = 319.46145660234544;
+        public static final double CAMERA_CY = 236.3485845021277;
     }
 
     public static class DriveTrain {
